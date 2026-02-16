@@ -1,0 +1,29 @@
+---
+description: Defines version requirements for the project
+globs: ["Gemfile", "Gemfile.lock", ".ruby-version"]
+alwaysApply: true
+---
+# Version Requirements
+
+This rule file defines version requirements for the project.
+
+## Ruby Version
+- Minimum: 3.2.0
+- Maximum: 3.3.0
+
+## Rails Version
+- Minimum: 8.0.0
+- Maximum: 8.1.0
+
+## Required Gems
+- git: >= 2.30.0
+- rubocop: >= 1.50.0
+- minitest: >= 5.18.0
+
+## System Requirements
+- git: >= 2.30.0
+- bundle: >= 2.4.0
+
+## Breaking Changes
+- Version 1.0.0: Initial release
+  See docs/migration/1.0.0.md for migration guide 

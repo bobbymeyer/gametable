@@ -1,0 +1,48 @@
+---
+description: Defines controller coding style and conventions
+globs: ["app/controllers/**/*.rb", "test/controllers/**/*.rb"]
+alwaysApply: false
+---
+# Controller Coding Style
+
+This rule file defines controller coding style and conventions.
+
+## File Patterns
+- `app/controllers/**/*.rb`: Controller files
+- `test/controllers/**/*.rb`: Controller test files
+
+## Controller Conventions
+- Use standard RESTful actions (index, show, new, create, edit, update, destroy)
+- Keep controllers thin, move business logic to models or services
+- Use before_action for shared logic
+- Use strong parameters for mass assignment security
+- Use respond_to blocks for format-specific responses
+- Use flash messages for user feedback
+- Use redirect_to with appropriate status codes
+- Follow the one action per controller action principle
+
+## Error Handling
+- Use rescue_from for common exceptions
+- Set appropriate status codes
+- Provide helpful error messages
+- Log errors appropriately
+- Use custom error pages
+
+## Response Conventions
+- Use proper HTTP status codes
+- Set appropriate response headers
+- Format JSON responses consistently
+- Handle errors in a RESTful way
+- Use proper content types
+
+## Testing Conventions
+- Test each controller action
+- Test both successful and failure cases
+- Test parameter validation
+- Test response status codes
+- Test response formats
+- Test redirects and flash messages
+
+## Dependencies
+@file .cursor/rules/ruby_style.mdc
+@file .cursor/rules/docs/rails_core.md 

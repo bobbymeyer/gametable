@@ -1,0 +1,7 @@
+<%= simple_form_for(@episode.persisted? ? @episode : [ @series, @episode ]) do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :title, required: true, autofocus: true %>
+  <%= f.input :session_date, as: :date %>
+  <%= f.input :notes, as: :text %>
+  <%= f.button :submit %>
+<% end %>

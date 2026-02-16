@@ -1,0 +1,52 @@
+---
+description: Defines Ruby coding style and conventions
+globs: ["app/**/*.rb", "test/**/*.rb"]
+alwaysApply: false
+---
+# Ruby Coding Style
+
+This rule file defines Ruby coding style and conventions.
+
+## File Patterns
+- `app/**/*.rb`: Ruby files
+- `test/**/*.rb`: Test files
+
+## Model Conventions
+- Use single table inheritance (STI) when appropriate
+- Use concerns for shared model behavior
+- Keep models focused on business logic
+- Use Rails validations and callbacks
+- Use scopes for common queries
+- Use enum for status fields
+- Use associations instead of manual joins
+
+## Method Conventions
+- Maximum method length: 10 lines
+- Extract complex logic into private methods
+- Use early returns
+- Use descriptive method names
+- Use parentheses for method arguments when it improves readability
+
+## Code Style
+- Maximum line length: 80 characters
+- Break long method chains into multiple lines
+- Use colons for hash keys (e.g., { key: value })
+- Only use hash rockets (=>) when keys contain spaces or special characters
+- Use Ruby's safe navigation operator (&.) when appropriate
+- Use Ruby's pattern matching when it improves readability
+- Use Ruby's endless methods for simple methods
+- Use Ruby's numbered parameters for simple blocks
+
+## Ruby Best Practices
+- Use Ruby's built-in methods instead of custom implementations
+- Use method chaining when it improves readability
+- Use guard clauses instead of nested conditionals
+- Use meaningful variable names
+- Follow the principle of least surprise
+- Keep methods and classes focused and small
+- Use Ruby's keyword arguments for complex method signatures
+- Use Ruby's array and hash destructuring when appropriate
+
+## Dependencies
+@file .cursor/rules/version.mdc
+@file .cursor/rules/docs/rails_core.md 

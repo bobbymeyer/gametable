@@ -1,0 +1,14 @@
+<h1>Sign up</h1>
+
+<%= simple_form_for @user do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :email, as: :email, required: true, autofocus: true %>
+  <%= f.input :password, required: true %>
+  <%= f.input :password_confirmation, required: true %>
+  <% if signed_in? && current_user.admin? %>
+    <%= f.input :admin, as: :boolean %>
+  <% end %>
+  <%= f.button :submit, "Create account" %>
+<% end %>
+
+<p><%= link_to "Sign in", login_path %></p>

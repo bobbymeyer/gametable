@@ -1,0 +1,68 @@
+---
+description: Defines code organization conventions
+globs: ["app/**/*", "test/**/*", "config/**/*"]
+alwaysApply: true
+---
+# Code Organization
+
+This rule file defines code organization conventions.
+
+## File Patterns
+- `app/**/*`: All application files
+- `test/**/*`: All test files
+- `config/**/*`: All configuration files
+
+## Organization Conventions
+- One class per file
+- Use namespacing for related functionality
+- Keep related files close together
+- Use descriptive file names
+- Use consistent file naming conventions
+- Follow Ruby and Rails naming conventions
+- Group related functionality in modules
+- Use proper directory structure
+
+## Directory Structure
+- Models in `app/models/`
+  - Business logic
+  - ActiveRecord models
+  - Plain Ruby objects
+  - Service objects
+- Controllers in `app/controllers/`
+  - RESTful actions
+  - Concerns
+  - Base controllers
+- Views in `app/views/`
+  - Templates
+  - Partials
+  - Layouts
+- Helpers in `app/helpers/`
+  - View helpers
+  - Application helpers
+- Jobs in `app/jobs/`
+  - Background jobs
+  - Scheduled tasks
+- Mailers in `app/mailers/`
+  - Email templates
+  - Mailer classes
+- Channels in `app/channels/`
+  - WebSocket channels
+  - Channel classes
+- Tests in `test/`
+  - Unit tests
+  - Integration tests
+  - System tests
+
+## Naming Conventions
+- Use plural for controllers (PostsController)
+- Use singular for models (Post)
+- Use plural for tables (posts)
+- Use snake_case for file names
+- Use CamelCase for class names
+- Use descriptive, purpose-indicating names
+- Follow Ruby naming conventions
+- Follow Rails naming conventions
+
+## Dependencies
+@file .cursor/rules/tech_stack.mdc
+@file .cursor/rules/docs/rails_core.md 

@@ -1,0 +1,52 @@
+---
+description: Chatroom and realtime feature strategy inspired by Campfire
+globs: ["app/**/*.rb", "app/**/*.erb", "app/javascript/**/*.js", "test/**/*.rb", "db/**/*.rb"]
+alwaysApply: false
+---
+# Chatroom Strategy
+
+This rule file defines architecture and implementation guidance for chatroom and chatroom-like features.
+
+## File Patterns
+- `app/models/**/*.rb`: Chat domain models
+- `app/controllers/**/*.rb`: Chat controllers and access checks
+- `app/views/**/*.erb`: Chat views and stream templates
+- `app/jobs/**/*.rb`: Async delivery and notification jobs
+- `test/**/*.rb`: Chat and authorization tests
+- `db/**/*.rb`: Schema and migrations for chat features
+
+## Product Capabilities (Reference Scope)
+- Rooms with membership and access control
+- Direct-message style conversations
+- Mentions and notifications
+- Searchable messages
+- File attachments with preview workflows
+- API and automation integration points
+
+## Architecture Guidance (Recommended)
+- Model clear domain boundaries: rooms, memberships, messages, conversations, mentions, notifications.
+- Keep controllers thin; place delivery/fan-out logic in service objects and jobs.
+- Prefer Hotwire/Turbo streams for realtime UX updates where it fits product needs.
+- Keep message write paths simple and explicit; isolate side effects from request/response flow.
+
+## Hard Quality/Security Gates (Required)
+- Enforce authorization at room and membership boundaries for all read/write actions.
+- Require automated tests for each feature path, including auth/permission edge cases.
+- Move non-request-critical work to background jobs (notification fan-out, preview generation, indexing).
+- Do not merge chat features unless both test suite and RuboCop pass.
+
+## Data and Mechanics (Recommended)
+- Use explicit access semantics for conversation types (public, private, direct).
+- Treat mentions, search indexing, and notification dispatch as asynchronous workflows.
+- Design attachment handling for safe preview generation and storage lifecycle clarity.
+- Prefer append-only message history patterns where possible; avoid hidden mutation paths.
+
+## Operational Guidance (Mixed)
+- Keep environment assumptions explicit for SSL, storage volumes, and Web Push key management.
+- Include instrumentation/logging around message delivery and notification jobs.
+- Define clear fallback behavior when realtime delivery is unavailable.
+
+## Dependencies
+@file .cursor/rules/development_workflow.mdc
+@file .cursor/rules/docs/hotwire.md
+@file .cursor/rules/docs/solid_queue.md

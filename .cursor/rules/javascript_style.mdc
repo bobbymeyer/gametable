@@ -1,0 +1,54 @@
+---
+description: Defines JavaScript and Hotwire coding style and conventions
+globs: ["app/javascript/**/*.js", "app/javascript/controllers/**/*.js"]
+alwaysApply: false
+---
+# JavaScript Coding Style
+
+This rule file defines JavaScript coding style and conventions.
+
+## File Patterns
+- `app/javascript/**/*.js`: JavaScript files
+- `app/javascript/controllers/**/*.js`: Stimulus controllers
+
+## Hotwire Conventions
+- Use Turbo Drive for page transitions
+- Use Turbo Frames for partial page updates
+- Use Turbo Streams for real-time updates
+- Use data-turbo attributes for fine-grained control
+- Follow progressive enhancement principles
+- Handle Turbo events appropriately
+- Use proper caching strategies
+
+## Stimulus Conventions
+- Use Stimulus only for interactive UI elements
+- Keep controllers small and focused
+- Use data-controller for controller attachment
+- Use data-action for event handling
+- Use data-target for element references
+- Use data-value for state management
+- Use lifecycle callbacks appropriately
+- Follow naming conventions for controllers and actions
+
+## JavaScript Best Practices
+- Avoid jQuery or other heavy libraries
+- Use ES6+ features when available
+- Use const and let appropriately
+- Use arrow functions for callbacks
+- Use async/await for asynchronous code
+- Use proper error handling
+- Keep code modular and reusable
+- Follow the principle of least power
+
+## Testing
+- Test Stimulus controllers
+- Test Turbo interactions
+- Test JavaScript modules
+- Use proper test helpers
+- Test both success and failure cases
+
+## Dependencies
+@file .cursor/rules/tech_stack.mdc
+@file .cursor/rules/docs/hotwire.md
+@file .cursor/rules/docs/stimulus.md
+@file .cursor/rules/docs/importmaps.md 

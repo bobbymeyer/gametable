@@ -1,0 +1,54 @@
+---
+description: Defines view coding style and conventions
+globs: ["app/views/**/*.erb", "app/helpers/**/*.rb", "app/views/layouts/*.erb"]
+alwaysApply: false
+---
+# View Coding Style
+
+This rule file defines view coding style and conventions.
+
+## File Patterns
+- `app/views/**/*.erb`: ERB templates
+- `app/helpers/**/*.rb`: View helpers
+- `app/views/layouts/*.erb`: Layout files
+
+## View Conventions
+- Use partials for reusable view components
+- Use layouts for shared view structure
+- Use helpers for view logic
+- Use content_for for layout customization
+- Use form builders (Simple Form)
+- Use I18n for all text content
+- Keep views focused and simple
+- Follow progressive enhancement
+
+## ERB Best Practices
+- Use proper ERB tags (<%= %> for output, <% %> for logic)
+- Minimize logic in views
+- Use presenter objects for complex view logic
+- Use proper HTML5 semantic elements
+- Follow accessibility guidelines
+- Keep indentation consistent
+- Use comments for complex sections
+
+## Form Conventions
+- Use Simple Form for all forms
+- Use proper form helpers
+- Use form objects for complex forms
+- Validate on both client and server
+- Show proper error messages
+- Use proper HTML5 input types
+- Follow accessibility guidelines
+
+## Helper Conventions
+- Keep helpers focused and simple
+- Use proper naming conventions
+- Test helper methods
+- Document complex helpers
+- Use proper Ruby conventions
+- Avoid complex logic in helpers
+
+## Dependencies
+@file .cursor/rules/tech_stack.mdc
+@file .cursor/rules/docs/rails_core.md
+@file .cursor/rules/docs/simple_form.md 

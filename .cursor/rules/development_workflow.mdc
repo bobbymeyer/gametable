@@ -1,0 +1,92 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Development Workflow
+
+This rule file defines the development workflow and practices for the project.
+
+## File Patterns
+- `test/**/*.rb`: Test files
+- `app/**/*.rb`: Implementation files
+- `.git/`: Git repository
+- `.cursor/rules/docs/*.md`: Documentation files
+- `.rubocop.yml`: Linting configuration
+
+## Quality Control
+
+Code is accepted only when the test suite passes and RuboCop reports no offenses. Both must be true simultaneously. Passing tests with RuboCop offenses is not accepted; clean RuboCop with failing tests is not accepted.
+
+- **All features must have a test.** Every new behavior or feature must be covered by an automated test (unit, integration, or system as appropriate). No feature is considered done without corresponding tests.
+- **Avoid commenting in code unless absolutely necessary.** Intention should be clear from tests; implementation should be clear from code. Prefer descriptive names and small, focused methods over comments. Comments are acceptable for non-obvious "why" (e.g. business rules, workarounds) or when required by tooling.
+- **Linting:** Use rubocop-rails-omakase as the base style. Extend with Basecamp's rubocop-37signals; run RuboCop as part of pre-commit and pre-merge checks.
+
+## Feature Development
+1. Create feature branch
+   - Branch naming: `feature/[description]`
+   - Based on latest main
+   - Clean working directory
+
+2. Research and Documentation
+   - Check `.cursor/rules/docs/` for relevant patterns
+   - Reference technology-specific docs (e.g., @docs/hotwire.md for Turbo)
+   - For messaging/realtime features, consult `.cursor/rules/chatroom_strategy.mdc`
+   - Follow established patterns from documentation
+
+3. Test-First Development
+   - All features must have a test; no feature is merged without test coverage
+   - Write test first
+   - Test should fail initially (red)
+   - Test should be specific and focused
+   - Test should be readable
+
+4. Implementation
+   - Write minimal code to pass test
+   - Follow patterns from documentation
+   - Run test (should pass - green)
+   - Fix implementation if test fails
+   - Repeat until test passes
+
+5. Code Quality
+   - Run RuboCop (rubocop-rails-omakase + rubocop-37signals); fix all offenses
+   - Check against project rules
+   - Check against documentation patterns
+   - Refactor if needed
+   - Ensure all tests pass; code must pass both tests and RuboCop to be accepted
+
+6. Git Workflow
+   - Stage changes
+   - Write clear commit message
+   - Commit changes
+   - Run final test suite
+   - Merge into main branch
+
+## Pre-commit Checks
+- Run test suite
+- Run RuboCop (must pass with no offenses)
+- Code must pass both tests and RuboCop to be accepted
+- Check project rules
+- Check documentation patterns
+- Check security guidelines
+- Check performance guidelines
+
+## Pre-merge Checks
+- Run full test suite
+- Run RuboCop; fix all offenses
+- Code must pass both tests and RuboCop simultaneously to be accepted
+- Check branch is up to date
+- Check no conflicts
+- Check all requirements met
+
+## Post-merge Checks
+- Verify main branch
+- Run final test suite
+- Check deployment readiness
+- Update documentation if needed
+
+## Dependencies
+@file .cursor/rules/coding_style.mdc
+@file .cursor/rules/tech_stack.mdc
+@file .cursor/rules/chatroom_strategy.mdc
+@file .cursor/rules/docs/*.md 

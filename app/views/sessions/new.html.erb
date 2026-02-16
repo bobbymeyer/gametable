@@ -1,0 +1,9 @@
+<h1>Sign in</h1>
+
+<%= simple_form_for :session, url: login_path, method: :post do |f| %>
+  <%= f.input :email, as: :email, required: true, autofocus: true %>
+  <%= f.input :password, required: true %>
+  <%= f.button :submit, "Sign in" %>
+<% end %>
+
+<p><%= link_to "Sign up", new_user_path %></p>
