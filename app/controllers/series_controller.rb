@@ -1,5 +1,6 @@
 class SeriesController < ApplicationController
   before_action :set_series, only: [ :show, :edit, :update, :destroy ]
+  before_action(only: [ :edit, :update, :destroy ]) { require_series_producer(@series) }
 
   def index
     @series = Series.all
@@ -13,7 +14,7 @@ class SeriesController < ApplicationController
   end
 
   def create
-    @series = Series.new(series_params)
+    @series = Series.new(series_params.merge(created_by_id: current_user.id))
     if @series.save
       redirect_to @series, notice: "Series was successfully created."
     else
@@ -40,7 +41,7 @@ class SeriesController < ApplicationController
   private
 
   def set_series
-    @series = Series.find(params[:id])
+    @series = Series.friendly.find(params[:id])
   end
 
   def series_params

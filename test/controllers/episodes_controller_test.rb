@@ -3,7 +3,7 @@ require "test_helper"
 class EpisodesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = User.create!(email: "user@example.com", password: "secret12", password_confirmation: "secret12")
-    @series = Series.create!(name: "Test Series")
+    @series = Series.create!(name: "Test Series", created_by: @user)
     post login_path, params: { session: { email: "user@example.com", password: "secret12" } }
   end
 
@@ -53,5 +53,38 @@ class EpisodesControllerTest < ActionDispatch::IntegrationTest
   test "create with invalid params re-renders new" do
     post series_episodes_path(@series), params: { episode: { title: "", notes: "No title." } }
     assert_response :unprocessable_entity
+  end
+
+  test "non-producer cannot create episode" do
+    other = User.create!(email: "other@example.com", password: "secret12", password_confirmation: "secret12")
+    post logout_path
+    post login_path, params: { session: { email: "other@example.com", password: "secret12" } }
+    assert_no_difference "Episode.count" do
+      post series_episodes_path(@series), params: { episode: { title: "Session One", notes: "First." } }
+    end
+    assert_redirected_to @series
+    assert_match /producer/, flash[:alert]
+  end
+
+  test "non-producer cannot update episode" do
+    episode = @series.episodes.create!(title: "Episode 1")
+    other = User.create!(email: "other@example.com", password: "secret12", password_confirmation: "secret12")
+    post logout_path
+    post login_path, params: { session: { email: "other@example.com", password: "secret12" } }
+    patch episode_path(episode), params: { episode: { title: "Hacked" } }
+    assert_redirected_to @series
+    episode.reload
+    assert_equal "Episode 1", episode.title
+  end
+
+  test "non-producer cannot destroy episode" do
+    episode = @series.episodes.create!(title: "To Delete")
+    other = User.create!(email: "other@example.com", password: "secret12", password_confirmation: "secret12")
+    post logout_path
+    post login_path, params: { session: { email: "other@example.com", password: "secret12" } }
+    assert_no_difference "Episode.count" do
+      delete episode_path(episode)
+    end
+    assert_redirected_to @series
   end
 end

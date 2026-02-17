@@ -1,24 +1,28 @@
-<div class="landing min-h-[calc(100vh-4rem)] flex flex-col">
-  <main class="flex-1 flex flex-col items-center justify-center px-4 py-16 text-center">
-    <p class="text-sm font-medium tracking-widest uppercase text-amber-600 dark:text-amber-400/90 mb-4">
-      AI-powered tabletop
-    </p>
-    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-stone-900 dark:text-white mb-6">
-      <%= app_name %>
-    </h1>
-    <p class="text-xl sm:text-2xl text-stone-600 dark:text-stone-400 max-w-xl mx-auto mb-10">
-      Your gametable. Smarter. Run sessions, manage characters, and bring stories to life with AI.
-    </p>
-    <div class="flex flex-wrap items-center justify-center gap-4">
-      <% if signed_in? %>
-        <%= link_to "Go to dashboard", series_index_path, class: "inline-flex items-center justify-center rounded-lg bg-amber-500 px-6 py-3 text-base font-semibold text-stone-950 shadow-sm hover:bg-amber-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 transition-colors" %>
-      <% else %>
-        <%= link_to "Get started", new_user_path, class: "inline-flex items-center justify-center rounded-lg bg-amber-500 px-6 py-3 text-base font-semibold text-stone-950 shadow-sm hover:bg-amber-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 transition-colors" %>
-        <%= link_to "Sign in", login_path, class: "inline-flex items-center justify-center rounded-lg border border-stone-400 dark:border-stone-600 bg-transparent px-6 py-3 text-base font-semibold text-stone-700 dark:text-stone-300 hover:border-stone-500 hover:bg-stone-200 dark:hover:border-stone-500 dark:hover:bg-stone-800/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-500 transition-colors" %>
-      <% end %>
+<div class="min-h-[calc(100vh-4rem)] flex flex-col">
+  <main class="flex-1 px-4 py-16">
+    <div class="mx-auto max-w-7xl">
+      <p class="text-left text-sm font-medium tracking-widest uppercase text-amber-600 dark:text-amber-400/90 mb-4">
+        AI-powered tabletop
+      </p>
+      <h1 class="text-left text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-stone-900 dark:text-white mb-6">
+        <%= app_name %>
+      </h1>
+      <p class="text-left text-xl sm:text-2xl text-stone-600 dark:text-stone-400 max-w-xl mb-10">
+        Your gametable. Smarter. Run sessions, manage characters, and bring stories to life with AI.
+      </p>
+      <div class="flex flex-wrap items-center gap-4">
+        <% if signed_in? %>
+          <%= link_to "Go to dashboard", series_index_path, class: "inline-flex items-center bg-amber-500 px-6 py-3 text-base font-semibold text-stone-950 hover:bg-amber-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 transition-colors" %>
+        <% else %>
+          <%= link_to "Get started", new_user_path, class: "inline-flex items-center bg-amber-500 px-6 py-3 text-base font-semibold text-stone-950 hover:bg-amber-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 transition-colors" %>
+          <%= link_to "Sign in", login_path, class: "inline-flex items-center border border-stone-400 dark:border-stone-600 bg-transparent px-6 py-3 text-base font-semibold text-stone-700 dark:text-stone-300 hover:border-stone-500 hover:bg-stone-200 dark:hover:border-stone-500 dark:hover:bg-stone-800/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-500 transition-colors" %>
+        <% end %>
+      </div>
     </div>
   </main>
-  <footer class="py-6 text-center text-stone-500 text-sm">
-    <%= app_name %> · AI Gametable
+  <footer class="py-8 px-4 text-left text-stone-500 text-sm">
+    <div class="mx-auto max-w-7xl">
+      <%= app_name %> · AI Gametable
+    </div>
   </footer>
 </div>

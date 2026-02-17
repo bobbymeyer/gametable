@@ -1,0 +1,15 @@
+<div class="flash fixed left-0 right-0 top-0 z-50 m-8 mx-auto max-w-[80%] rounded-lg border border-stone-300 dark:border-stone-600 shadow-md overflow-hidden transition-opacity duration-300 ease-out" aria-atomic="true" id="flash-container">
+  <% flash.each do |type, message| %>
+    <% next if message.blank? %>
+    <%
+      alert_type = type.to_s == "alert"
+      role = alert_type ? "alert" : "status"
+      aria_live = alert_type ? "assertive" : "polite"
+      base_classes = "w-full px-4 py-3 text-sm text-left border-b border-stone-300 last:border-b-0 dark:border-stone-600"
+      type_classes = alert_type ? "text-red-800 dark:text-red-200 bg-red-200/80 dark:bg-red-500/20" : "text-amber-900 dark:text-amber-200 bg-amber-200/80 dark:bg-amber-500/20"
+    %>
+    <div role="<%= role %>" aria-live="<%= aria_live %>" class="flash__message <%= base_classes %> <%= type_classes %>">
+      <%= message %>
+    </div>
+  <% end %>
+</div>

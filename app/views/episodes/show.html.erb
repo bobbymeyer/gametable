@@ -1,8 +1,10 @@
-<div class="mx-auto max-w-7xl px-4 py-8">
+<div class="mx-auto max-w-7xl px-4 py-8 text-left">
   <%= link_to @series.name, @series, class: "text-sm text-stone-600 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-300" %>
   <div class="mb-6 flex items-center justify-between mt-1">
     <h1 class="text-3xl font-bold text-stone-900 dark:text-white"><%= @episode.title %></h1>
-    <%= link_to "Edit", edit_episode_path(@episode), class: "rounded-lg border border-stone-400 dark:border-stone-600 px-4 py-2 text-sm font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-800/50 transition-colors" %>
+    <% if @series.producer?(current_user) %>
+      <%= link_to "Edit", edit_episode_path(@episode), class: "border border-stone-400 dark:border-stone-600 px-4 py-2 text-sm font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-800/50 transition-colors" %>
+    <% end %>
   </div>
 
   <% if @episode.session_date.present? %>
@@ -10,8 +12,8 @@
   <% end %>
 
   <% if @episode.notes.present? %>
-    <div class="prose dark:prose-invert max-w-none">
-      <%= simple_format(@episode.notes, class: "text-stone-700 dark:text-stone-300") %>
+    <div class="text-base text-stone-700 dark:text-stone-300 space-y-4">
+      <%= simple_format(@episode.notes, class: "text-left") %>
     </div>
   <% end %>
 </div>

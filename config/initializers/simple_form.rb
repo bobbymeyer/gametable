@@ -9,8 +9,8 @@
 #
 # Use this setup block to configure all options available in SimpleForm.
 SimpleForm.setup do |config|
-  # Tailwind 4.1 wrapper: light and dark theme support.
-  input_classes = "block w-full rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-stone-900 dark:text-stone-100 shadow-sm placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:border-amber-400 focus:outline-none focus:ring-1 focus:ring-amber-400"
+  # Tailwind 4.1 wrapper: Swiss style — rectangular inputs, amber accent.
+  input_classes = "block w-full border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-left text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:border-amber-400 focus:outline-none focus:ring-1 focus:ring-amber-400"
   config.wrappers :tailwind, class: "mb-4",
     hint_class: :field_with_hint, error_class: :field_with_errors, valid_class: :field_without_errors do |b|
     b.use :html5
@@ -20,7 +20,7 @@ SimpleForm.setup do |config|
     b.optional :pattern
     b.optional :min_max
     b.optional :readonly
-    b.use :label, class: "block text-sm font-medium text-stone-800 dark:text-stone-200 mb-1"
+    b.use :label, class: "block text-left text-sm font-medium text-stone-800 dark:text-stone-200 mb-1"
     b.use :input, class: input_classes,
       error_class: "border-red-400 focus:border-red-400 focus:ring-red-400",
       valid_class: "border-stone-300 dark:border-stone-600"
@@ -90,7 +90,7 @@ SimpleForm.setup do |config|
   config.boolean_style = :nested
 
   # Default class for buttons
-  config.button_class = "rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-stone-950 hover:bg-amber-400 transition-colors"
+  config.button_class = "bg-amber-500 px-4 py-2 text-sm font-semibold text-stone-950 hover:bg-amber-400 transition-colors"
 
   # Method used to tidy up errors. Specify any Rails Array method.
   # :first lists the first message for each field.
@@ -101,7 +101,7 @@ SimpleForm.setup do |config|
   config.error_notification_tag = :div
 
   # CSS class to add for error notification helper.
-  config.error_notification_class = "rounded-lg border border-red-600 dark:border-red-800 bg-red-100 dark:bg-red-950/50 p-4 text-sm text-red-800 dark:text-red-200"
+  config.error_notification_class = "border border-red-600 dark:border-red-800 bg-red-100 dark:bg-red-950/50 p-4 text-left text-sm text-red-800 dark:text-red-200"
 
   # Series of attempts to detect a default label method for collection.
   # config.collection_label_methods = [ :to_label, :name, :title, :to_s ]

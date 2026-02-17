@@ -16,40 +16,65 @@ class SeriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "create series" do
+  test "create series sets current user as executive producer" do
     assert_difference "Series.count", 1 do
       post series_index_path, params: { series: { name: "Polychrome", description: "A campaign." } }
     end
     assert_redirected_to Series.last
-    assert_equal "Polychrome", Series.last.name
+    series = Series.last
+    assert_equal "Polychrome", series.name
+    assert_equal @user, series.created_by
   end
 
   test "get show" do
-    series = Series.create!(name: "Test Series")
+    series = Series.create!(name: "Test Series", created_by: @user)
     get series_path(series)
     assert_response :success
   end
 
-  test "get edit" do
-    series = Series.create!(name: "Test Series")
+  test "get edit when user is producer" do
+    series = Series.create!(name: "Test Series", created_by: @user)
     get edit_series_path(series)
     assert_response :success
   end
 
-  test "update series" do
-    series = Series.create!(name: "Old Name")
+  test "get edit redirects when user is not producer" do
+    series = Series.create!(name: "Test Series", created_by: User.create!(email: "other@example.com", password: "secret12", password_confirmation: "secret12"))
+    get edit_series_path(series)
+    assert_redirected_to series_path(series)
+    assert_match /producer/, flash[:alert]
+  end
+
+  test "update series when user is producer" do
+    series = Series.create!(name: "Old Name", created_by: @user)
     patch series_path(series), params: { series: { name: "New Name", description: "Updated." } }
     assert_redirected_to series
     series.reload
     assert_equal "New Name", series.name
   end
 
-  test "destroy series" do
-    series = Series.create!(name: "To Delete")
+  test "update series redirects when user is not producer" do
+    series = Series.create!(name: "Old Name", created_by: User.create!(email: "other@example.com", password: "secret12", password_confirmation: "secret12"))
+    patch series_path(series), params: { series: { name: "New Name" } }
+    assert_redirected_to series_path(series)
+    series.reload
+    assert_equal "Old Name", series.name
+  end
+
+  test "destroy series when user is producer" do
+    series = Series.create!(name: "To Delete", created_by: @user)
     assert_difference "Series.count", -1 do
       delete series_path(series)
     end
     assert_redirected_to series_index_path
+  end
+
+  test "destroy series redirects when user is not producer" do
+    series = Series.create!(name: "To Delete", created_by: User.create!(email: "other@example.com", password: "secret12", password_confirmation: "secret12"))
+    assert_no_difference "Series.count" do
+      delete series_path(series)
+    end
+    assert_redirected_to series_path(series)
   end
 
   test "create with invalid params re-renders new" do

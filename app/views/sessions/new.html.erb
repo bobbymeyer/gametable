@@ -1,9 +1,11 @@
-<h1>Sign in</h1>
+<div class="mx-auto max-w-7xl px-4 py-8 text-left">
+  <h1 class="text-3xl font-bold text-stone-900 dark:text-white mb-6">Sign in</h1>
 
-<%= simple_form_for :session, url: login_path, method: :post do |f| %>
-  <%= f.input :email, as: :email, required: true, autofocus: true %>
-  <%= f.input :password, required: true %>
-  <%= f.button :submit, "Sign in" %>
-<% end %>
+  <%= simple_form_for :session, url: login_path, method: :post do |f| %>
+    <%= f.input :email, as: :email, required: true, autofocus: true %>
+    <%= f.input :password, required: true %>
+    <%= f.button :submit, "Sign in" %>
+  <% end %>
 
-<p><%= link_to "Sign up", new_user_path %></p>
+  <p class="mt-4 text-stone-600 dark:text-stone-400"><%= link_to "Sign up", new_user_path, class: "text-amber-600 dark:text-amber-400 hover:text-amber-500 dark:hover:text-amber-300" %></p>
+</div>

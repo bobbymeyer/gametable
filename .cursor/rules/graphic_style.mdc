@@ -1,0 +1,42 @@
+---
+description: Swiss International (International Typographic) design styleguide—grids, ragged-right type, grotesk fonts, bold geometry, color, photography
+globs: ["app/views/**/*.erb", "app/assets/stylesheets/**/*.css", "app/assets/tailwind/**/*.css"]
+alwaysApply: false
+---
+# Graphic Style — Swiss International Design
+
+This rule defines the project’s visual style: orthodox Swiss International (International Typographic Style). All views, layouts, and styles should follow it.
+
+## File Patterns
+- `app/views/**/*.erb`: ERB templates and layouts
+- `app/assets/stylesheets/**/*.css`: Application CSS
+- `app/assets/tailwind/**/*.css`: Tailwind source
+
+## Typography
+- **Grotesk fonts**: Use neo-grotesque sans-serifs (Helvetica, Univers, Akzidenz-Grotesk lineage). In the app: system stack (e.g. Helvetica Neue, Arial) or a loaded grotesk (IBM Plex Sans, Inter, or similar). No decorative or humanist sans.
+- **Ragged right**: Body and paragraph text must be **flush left, ragged right**. Use `text-left` in Tailwind; never `text-justify`.
+- **Hierarchy**: Clear type scale (e.g. one or two display sizes, then body and caption). Prefer weight and size over ornament; use bold for emphasis.
+
+## Grid
+- **Layout grid**: Design on a mathematical grid (e.g. 8pt or 4pt base). Define column count, gutter, and max-width for main content. Use Tailwind’s spacing scale where it aligns (multiples of 4).
+- **Alignment**: Elements align to the grid; avoid arbitrary spacing. Use consistent horizontal rhythm: `max-w-*` containers, `px-*` and `gap-*` from the defined scale.
+
+## Geometry and Space
+- **Bold geometry**: Prefer strong rectangular blocks, clear horizontal and vertical structure, asymmetric balance. Use rules (lines), panels, and clear sections.
+- **White space**: Treat negative space as an active element; do not crowd. Use generous margins and padding; avoid decorative fill.
+
+## Color
+- **60/30/10 balance**: Apply across layouts—**60%** dominant (e.g. background, main surface), **30%** secondary (e.g. supporting panels, large blocks), **10%** accent. The 10% is an **array of bold primary and secondary colors** (e.g. one primary accent plus one or more secondary accents), used sparingly for CTAs, labels, highlights, and key UI elements.
+- **Bold, limited palette**: Use the palette with high contrast. The project uses stone + amber; define the “10” as a small set of bold primary and secondary colors (e.g. amber as primary plus one or two secondary accents).
+- **Contrast**: Ensure strong value contrast for readability and impact.
+
+## Photography and Imagery
+- **Bold use**: Treat photography as a graphic element—full-bleed, cropped to strong shapes, or in clear grid cells. Prefer high contrast, clear subject, or duotone/tinted treatment where appropriate.
+- **Placement**: Align with the grid; avoid small, decorative thumbnails unless part of a clear pattern.
+
+## Implementation
+- **Tailwind**: Prefer utilities that support this style: `text-left`, grid/flex with consistent spacing, `font-sans` with a configured grotesk stack. Add custom CSS in `app/assets/stylesheets/` for type scale or grid variables if needed.
+- **Avoid**: Centered body text, justified text, decorative fonts, ornamental borders/shadows, busy backgrounds. No generic SaaS roundedness unless it is a deliberate geometric shape.
+
+## Dependencies
+@file .cursor/rules/tech_stack.mdc

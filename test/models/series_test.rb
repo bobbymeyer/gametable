@@ -26,4 +26,25 @@ class SeriesTest < ActiveSupport::TestCase
       series.destroy
     end
   end
+
+  test "producer? is true for created_by" do
+    user = User.create!(email: "ep@example.com", password: "secret12", password_confirmation: "secret12")
+    series = Series.create!(name: "Test", created_by: user)
+    assert series.producer?(user)
+  end
+
+  test "producer? is true for added producer" do
+    ep = User.create!(email: "ep@example.com", password: "secret12", password_confirmation: "secret12")
+    producer = User.create!(email: "producer@example.com", password: "secret12", password_confirmation: "secret12")
+    series = Series.create!(name: "Test", created_by: ep)
+    series.series_producers.create!(user: producer)
+    assert series.producer?(producer)
+  end
+
+  test "producer? is false for unrelated user" do
+    ep = User.create!(email: "ep@example.com", password: "secret12", password_confirmation: "secret12")
+    other = User.create!(email: "other@example.com", password: "secret12", password_confirmation: "secret12")
+    series = Series.create!(name: "Test", created_by: ep)
+    assert_not series.producer?(other)
+  end
 end

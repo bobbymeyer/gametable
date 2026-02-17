@@ -1,6 +1,7 @@
 class EpisodesController < ApplicationController
   before_action :set_series, only: [ :index, :new, :create ]
   before_action :set_episode, only: [ :show, :edit, :update, :destroy ]
+  before_action :require_episode_series_producer, only: [ :new, :create, :edit, :update, :destroy ]
 
   def index
     @episodes = @series.episodes
@@ -45,11 +46,16 @@ class EpisodesController < ApplicationController
   private
 
   def set_series
-    @series = Series.find(params[:series_id])
+    @series = Series.friendly.find(params[:series_id])
   end
 
   def set_episode
-    @episode = Episode.find(params[:id])
+    @episode = Episode.friendly.find(params[:id])
+  end
+
+  def require_episode_series_producer
+    series = @series || @episode&.series
+    require_series_producer(series) if series
   end
 
   def episode_params

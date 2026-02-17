@@ -1,16 +1,16 @@
-<div class="mx-auto max-w-7xl px-4 py-8">
+<div class="mx-auto max-w-7xl px-4 py-8 text-left">
   <div class="flex items-center justify-between mb-8">
     <h1 class="text-3xl font-bold text-stone-900 dark:text-white">Series</h1>
-    <%= link_to "New series", new_series_path, class: "rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-stone-950 hover:bg-amber-400 transition-colors" %>
+    <%= link_to "New series", new_series_path, class: "bg-amber-500 px-4 py-2 text-sm font-semibold text-stone-950 hover:bg-amber-400 transition-colors" %>
   </div>
 
   <% if @series.any? %>
     <ul class="space-y-4">
       <% @series.each do |s| %>
-        <li class="rounded-lg border border-stone-200 dark:border-stone-700 bg-stone-100 dark:bg-stone-900/50 p-4">
+        <li class="border border-stone-200 dark:border-stone-700 bg-stone-100 dark:bg-stone-900/50 p-4">
           <%= link_to s.name, s, class: "font-semibold text-amber-600 dark:text-amber-400 hover:text-amber-500 dark:hover:text-amber-300" %>
           <% if s.description.present? %>
-            <p class="mt-2 text-sm text-stone-600 dark:text-stone-400 line-clamp-2"><%= s.description %></p>
+            <p class="mt-2 text-left text-sm text-stone-600 dark:text-stone-400 line-clamp-2"><%= s.description %></p>
           <% end %>
         </li>
       <% end %>

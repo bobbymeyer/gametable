@@ -1,6 +1,10 @@
 class User < ApplicationRecord
   has_secure_password
 
+  has_many :created_series, class_name: "Series", foreign_key: :created_by_id, dependent: :nullify
+  has_many :series_producers, dependent: :destroy
+  has_many :produced_series, through: :series_producers, source: :series
+
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: 6 }, if: -> { password.present? }
 

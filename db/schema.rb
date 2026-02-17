@@ -10,18 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_16_204815) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_17_060725) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
+  create_table "characters", force: :cascade do |t|
+    t.bigint "series_id", null: false
+    t.string "name"
+    t.integer "xp", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["series_id"], name: "index_characters_on_series_id"
+  end
+
   create_table "episodes", force: :cascade do |t|
     t.bigint "series_id", null: false
-    t.string "title"
+    t.string "name"
     t.date "session_date"
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
     t.index ["series_id"], name: "index_episodes_on_series_id"
+    t.index ["slug"], name: "index_episodes_on_slug", unique: true
   end
 
   create_table "series", force: :cascade do |t|
@@ -29,6 +40,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_16_204815) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.bigint "created_by_id"
+    t.index ["created_by_id"], name: "index_series_on_created_by_id"
+    t.index ["slug"], name: "index_series_on_slug", unique: true
+  end
+
+  create_table "series_producers", force: :cascade do |t|
+    t.bigint "series_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["series_id", "user_id"], name: "index_series_producers_on_series_id_and_user_id", unique: true
+    t.index ["series_id"], name: "index_series_producers_on_series_id"
+    t.index ["user_id"], name: "index_series_producers_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -40,5 +65,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_16_204815) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "characters", "series"
   add_foreign_key "episodes", "series"
+  add_foreign_key "series", "users", column: "created_by_id"
+  add_foreign_key "series_producers", "series"
+  add_foreign_key "series_producers", "users"
 end

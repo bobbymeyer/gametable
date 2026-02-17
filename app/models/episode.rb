@@ -1,5 +1,9 @@
 class Episode < ApplicationRecord
+  extend FriendlyId
+  friendly_id :name, use: :slugged
+
   belongs_to :series
 
-  validates :title, presence: true
+  alias_attribute :title, :name
+  validates :name, presence: true
 end

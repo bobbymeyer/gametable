@@ -1,0 +1,43 @@
+<div class="mx-auto max-w-7xl px-4 py-8 text-left">
+  <div class="mb-6">
+    <%= link_to @series.name, @series, class: "text-sm text-stone-600 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-300" %>
+    <h1 class="text-3xl font-bold text-stone-900 dark:text-white mt-1">Producers</h1>
+    <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">Only the Executive Producer can add or remove producers. Producers can edit this series and its episodes.</p>
+  </div>
+
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold text-stone-900 dark:text-white mb-3">Add producer</h2>
+    <%= form_with url: series_series_producers_path(@series), method: :post, local: true, class: "flex flex-wrap items-end gap-2" do |f| %>
+      <div class="flex-1 min-w-[200px]">
+        <label for="email" class="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">User email</label>
+        <input type="email" name="email" id="email" required placeholder="producer@example.com" class="w-full border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 px-3 py-2 rounded" />
+      </div>
+      <button type="submit" class="bg-amber-500 px-4 py-2 text-sm font-semibold text-stone-950 hover:bg-amber-400 transition-colors rounded">Add producer</button>
+    <% end %>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-stone-900 dark:text-white mb-3">Executive Producer</h2>
+    <% if @series.executive_producer %>
+      <p class="text-stone-700 dark:text-stone-300"><%= @series.executive_producer.email %></p>
+    <% else %>
+      <p class="text-stone-600 dark:text-stone-400">No executive producer set.</p>
+    <% end %>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="text-xl font-semibold text-stone-900 dark:text-white mb-3">Producers</h2>
+    <% if @series_producers.any? %>
+      <ul class="space-y-3">
+        <% @series_producers.each do |sp| %>
+          <li class="flex items-center justify-between border border-stone-200 dark:border-stone-700 bg-stone-100 dark:bg-stone-900/50 p-3">
+            <span class="text-stone-700 dark:text-stone-300"><%= sp.user.email %></span>
+            <%= button_to "Remove", series_series_producer_path(@series, sp), method: :delete, data: { turbo_confirm: "Remove producer credit?" }, class: "text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300" %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-stone-600 dark:text-stone-400">No additional producers. Add one above to grant edit access.</p>
+    <% end %>
+  </section>
+</div>

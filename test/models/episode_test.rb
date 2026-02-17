@@ -7,11 +7,11 @@ class EpisodeTest < ActiveSupport::TestCase
     assert episode.valid?
   end
 
-  test "invalid without title" do
+  test "invalid without name" do
     series = Series.create!(name: "Test Series")
     episode = Episode.new(series: series, title: "")
     assert_not episode.valid?
-    assert_includes episode.errors[:title], "can't be blank"
+    assert_includes episode.errors[:name], "can't be blank"
   end
 
   test "invalid without series" do
