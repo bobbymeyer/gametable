@@ -55,4 +55,53 @@ class CharactersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to @series
     assert_match /producer/, flash[:alert]
   end
+
+  test "producer can generate portrait" do
+    character = @series.cast.create!(name: "Hero")
+    assert_enqueued_with(job: ComfyUI::RunWorkflowJob) do
+      post generate_portrait_character_path(character)
+    end
+    assert_redirected_to character
+    assert_match /started/, flash[:notice]
+  end
+
+  test "generate portrait enqueues job with default prompt and attach target" do
+    character = @series.cast.create!(name: "Hero")
+    assert_enqueued_with(
+      job: ComfyUI::RunWorkflowJob,
+      args: [
+        "placeholder",
+        { "prompt" => "Small portrait of Hero, head and shoulders, fantasy character art style" },
+        "attach" => { "record" => "Character", "id" => character.id, "name" => "portrait" }
+      ]
+    ) do
+      post generate_portrait_character_path(character)
+    end
+  end
+
+  test "generate portrait with custom prompt" do
+    character = @series.cast.create!(name: "Hero")
+    assert_enqueued_with(
+      job: ComfyUI::RunWorkflowJob,
+      args: [
+        "placeholder",
+        { "prompt" => "elf wizard, detailed" },
+        "attach" => { "record" => "Character", "id" => character.id, "name" => "portrait" }
+      ]
+    ) do
+      post generate_portrait_character_path(character), params: { prompt: "elf wizard, detailed" }
+    end
+  end
+
+  test "non-producer cannot generate portrait" do
+    character = @series.cast.create!(name: "Hero")
+    other = User.create!(email: "other@example.com", password: "secret12", password_confirmation: "secret12")
+    post logout_path
+    post login_path, params: { session: { email: "other@example.com", password: "secret12" } }
+    assert_no_enqueued_jobs only: ComfyUI::RunWorkflowJob do
+      post generate_portrait_character_path(character)
+    end
+    assert_redirected_to @series
+    assert_match /producer/, flash[:alert]
+  end
 end

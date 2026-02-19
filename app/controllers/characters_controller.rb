@@ -1,10 +1,21 @@
 class CharactersController < ApplicationController
   before_action :set_series, only: [ :new, :create ]
-  before_action :set_character, only: [ :show ]
+  before_action :set_character, only: [ :show, :generate_portrait ]
   before_action(only: [ :new, :create ]) { require_series_producer(@series) }
+  before_action(only: [ :generate_portrait ]) { require_series_producer(@character.series) }
 
   def show
     @series = @character.series
+  end
+
+  def generate_portrait
+    prompt = params[:prompt].to_s.presence || default_portrait_prompt
+    ::ComfyUI::RunWorkflowJob.perform_later(
+      "placeholder",
+      { "prompt" => prompt },
+      "attach" => { "record" => "Character", "id" => @character.id, "name" => "portrait" }
+    )
+    redirect_to @character, notice: "Portrait generation started. It may take a minute to appear."
   end
 
   def new
@@ -32,5 +43,9 @@ class CharactersController < ApplicationController
 
   def character_params
     params.require(:character).permit(:name)
+  end
+
+  def default_portrait_prompt
+    "Small portrait of #{@character.name}, head and shoulders, fantasy character art style"
   end
 end

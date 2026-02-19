@@ -7,6 +7,7 @@ class Series < ApplicationRecord
   has_many :producers, through: :series_producers, source: :user
   has_many :episodes, dependent: :destroy
   has_many :cast, class_name: "Character", dependent: :destroy
+  has_many :locations, dependent: :destroy
 
   validates :name, presence: true
 

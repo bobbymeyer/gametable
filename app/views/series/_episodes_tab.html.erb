@@ -1,0 +1,23 @@
+<div class="flex items-center justify-between mb-4">
+  <h2 class="text-xl font-semibold text-stone-900 dark:text-white">Episodes</h2>
+  <% if @series.producer?(current_user) %>
+    <%= link_to "New episode", new_series_episode_path(@series), class: "bg-amber-500 px-4 py-2 text-sm font-semibold text-stone-950 hover:bg-amber-400 transition-colors" %>
+  <% end %>
+</div>
+
+<% if @series.episodes.any? %>
+  <ul class="space-y-3">
+    <% @series.episodes.each do |episode| %>
+      <li class="border border-stone-200 dark:border-stone-700 bg-stone-100 dark:bg-stone-900/50 p-3">
+        <%= link_to episode.title.presence || "Episode", episode_path(episode), class: "font-medium text-amber-600 dark:text-amber-400 hover:text-amber-500 dark:hover:text-amber-300" %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="text-stone-600 dark:text-stone-400">
+    No episodes yet.
+    <% if @series.producer?(current_user) %>
+      <%= link_to "Add one", new_series_episode_path(@series), class: "text-amber-600 dark:text-amber-400 hover:text-amber-500 dark:hover:text-amber-300" %>.
+    <% end %>
+  </p>
+<% end %>

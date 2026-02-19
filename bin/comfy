@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+# Start ComfyUI when COMFYUI_PATH is set; otherwise keep process alive so Foreman does not treat it as a crash.
+if [ -z "$COMFYUI_PATH" ] || [ ! -d "$COMFYUI_PATH" ]; then
+  echo "ComfyUI skipped (set COMFYUI_PATH to enable)"
+  while true; do sleep 3600; done
+  exit 0
+fi
+
+cd "$COMFYUI_PATH" && exec python3 main.py --listen 0.0.0.0 --port 8188

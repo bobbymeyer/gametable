@@ -18,7 +18,12 @@ Rails.application.routes.draw do
   resources :users, only: [ :new, :create ]
   resources :series do
     resources :episodes, shallow: true
-    resources :characters, only: [ :new, :create, :show ], shallow: true
+    resources :characters, only: [ :new, :create, :show ], shallow: true do
+      member do
+        post :generate_portrait
+      end
+    end
+    resources :locations, only: [ :new, :create, :edit, :update, :destroy ], shallow: true
     resources :series_producers, only: [ :index, :create, :destroy ], path: "producers"
   end
 end

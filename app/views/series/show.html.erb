@@ -19,55 +19,74 @@
     <p class="text-stone-600 dark:text-stone-400 mb-8"><%= @series.description %></p>
   <% end %>
 
-  <section class="mb-8">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-xl font-semibold text-stone-900 dark:text-white">Cast</h2>
-      <% if @series.producer?(current_user) %>
-        <%= link_to "New character", new_series_character_path(@series), class: "bg-amber-500 px-4 py-2 text-sm font-semibold text-stone-950 hover:bg-amber-400 transition-colors" %>
-      <% end %>
+  <div role="tablist" aria-label="Series sections" class="border-b border-stone-200 dark:border-stone-700 mb-6">
+    <div class="flex gap-1 -mb-px">
+      <%= link_to "Cast", series_path(@series, anchor: "cast"), role: "tab", id: "tab-cast", aria: { selected: "false", controls: "cast" }, class: "series-tab border-b-2 border-transparent px-4 py-3 text-sm font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200 hover:border-stone-300 dark:hover:border-stone-600 transition-colors" %>
+      <%= link_to "Episodes", series_path(@series, anchor: "episodes"), role: "tab", id: "tab-episodes", aria: { selected: "false", controls: "episodes" }, class: "series-tab border-b-2 border-transparent px-4 py-3 text-sm font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200 hover:border-stone-300 dark:hover:border-stone-600 transition-colors" %>
+      <%= link_to "Locations", series_path(@series, anchor: "locations"), role: "tab", id: "tab-locations", aria: { selected: "false", controls: "locations" }, class: "series-tab border-b-2 border-transparent px-4 py-3 text-sm font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200 hover:border-stone-300 dark:hover:border-stone-600 transition-colors" %>
+      <%= link_to "Future", series_path(@series, anchor: "future"), role: "tab", id: "tab-future", aria: { selected: "false", controls: "future" }, class: "series-tab border-b-2 border-transparent px-4 py-3 text-sm font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200 hover:border-stone-300 dark:hover:border-stone-600 transition-colors" %>
     </div>
+  </div>
 
-    <% if @series.cast.any? %>
-      <ul class="space-y-3">
-        <% @series.cast.each do |character| %>
-          <li class="border border-stone-200 dark:border-stone-700 bg-stone-100 dark:bg-stone-900/50 p-3">
-            <%= link_to character.name, character_path(character), class: "font-medium text-amber-600 dark:text-amber-400 hover:text-amber-500 dark:hover:text-amber-300" %>
-          </li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p class="text-stone-600 dark:text-stone-400">
-        No characters yet.
-        <% if @series.producer?(current_user) %>
-          <%= link_to "Add one", new_series_character_path(@series), class: "text-amber-600 dark:text-amber-400 hover:text-amber-500 dark:hover:text-amber-300" %>.
-        <% end %>
-      </p>
-    <% end %>
-  </section>
-
-  <section>
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-xl font-semibold text-stone-900 dark:text-white">Episodes</h2>
-      <% if @series.producer?(current_user) %>
-        <%= link_to "New episode", new_series_episode_path(@series), class: "bg-amber-500 px-4 py-2 text-sm font-semibold text-stone-950 hover:bg-amber-400 transition-colors" %>
-      <% end %>
-    </div>
-
-    <% if @series.episodes.any? %>
-      <ul class="space-y-3">
-        <% @series.episodes.each do |episode| %>
-          <li class="border border-stone-200 dark:border-stone-700 bg-stone-100 dark:bg-stone-900/50 p-3">
-            <%= link_to episode.title.presence || "Episode", episode_path(episode), class: "font-medium text-amber-600 dark:text-amber-400 hover:text-amber-500 dark:hover:text-amber-300" %>
-          </li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p class="text-stone-600 dark:text-stone-400">
-        No episodes yet.
-        <% if @series.producer?(current_user) %>
-          <%= link_to "Add one", new_series_episode_path(@series), class: "text-amber-600 dark:text-amber-400 hover:text-amber-500 dark:hover:text-amber-300" %>.
-        <% end %>
-      </p>
-    <% end %>
-  </section>
+  <div id="cast" role="tabpanel" aria-labelledby="tab-cast" class="series-panel hidden">
+    <%= render "cast_tab" %>
+  </div>
+  <div id="episodes" role="tabpanel" aria-labelledby="tab-episodes" class="series-panel hidden">
+    <%= render "episodes_tab" %>
+  </div>
+  <div id="locations" role="tabpanel" aria-labelledby="tab-locations" class="series-panel hidden">
+    <%= render "locations_tab" %>
+  </div>
+  <div id="future" role="tabpanel" aria-labelledby="tab-future" class="series-panel hidden">
+    <%= render "future_tab" %>
+  </div>
 </div>
+
+<script>
+(function() {
+  var TAB_IDS = [ "cast", "episodes", "locations", "future" ];
+  var defaultTab = "cast";
+
+  function hashToTab() {
+    var hash = (window.location.hash || "#").slice(1).toLowerCase();
+    return TAB_IDS.includes(hash) ? hash : defaultTab;
+  }
+
+  function showTab(tabId) {
+    TAB_IDS.forEach(function(id) {
+      var panel = document.getElementById(id);
+      var tab = document.getElementById("tab-" + id);
+      if (!panel || !tab) return;
+      if (id === tabId) {
+        panel.classList.remove("hidden");
+        tab.setAttribute("aria-selected", "true");
+        tab.classList.add("border-amber-500", "text-amber-600", "dark:text-amber-400");
+        tab.classList.remove("border-transparent");
+      } else {
+        panel.classList.add("hidden");
+        tab.setAttribute("aria-selected", "false");
+        tab.classList.remove("border-amber-500", "text-amber-600", "dark:text-amber-400");
+        tab.classList.add("border-transparent");
+      }
+    });
+  }
+
+  function syncFromHash() {
+    showTab(hashToTab());
+  }
+
+  document.querySelectorAll(".series-tab").forEach(function(link) {
+    link.addEventListener("click", function(e) {
+      var anchor = link.getAttribute("href").split("#")[1] || defaultTab;
+      if (anchor && TAB_IDS.includes(anchor)) {
+        window.location.hash = anchor;
+        showTab(anchor);
+        e.preventDefault();
+      }
+    });
+  });
+
+  window.addEventListener("hashchange", syncFromHash);
+  syncFromHash();
+})();
+</script>

@@ -1,0 +1,8 @@
+{
+  "1": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "{{prompt}}"
+    }
+  }
+}

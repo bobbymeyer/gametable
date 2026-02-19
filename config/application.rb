@@ -28,6 +28,9 @@ module Gametable
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # app/comfy_ui defines ComfyUI::* but lives under an autoload root; we load it in config/initializers/comfy_ui.rb.
+    Rails.autoloaders.main.ignore(Rails.root.join("app/comfy_ui"))
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

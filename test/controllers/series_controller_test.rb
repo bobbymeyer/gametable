@@ -30,6 +30,11 @@ class SeriesControllerTest < ActionDispatch::IntegrationTest
     series = Series.create!(name: "Test Series", created_by: @user)
     get series_path(series)
     assert_response :success
+    assert_select "[role=tablist]"
+    assert_select "a[href=?]", series_path(series) + "#cast", text: "Cast"
+    assert_select "a[href=?]", series_path(series) + "#episodes", text: "Episodes"
+    assert_select "a[href=?]", series_path(series) + "#locations", text: "Locations"
+    assert_select "a[href=?]", series_path(series) + "#future", text: "Future"
   end
 
   test "get edit when user is producer" do

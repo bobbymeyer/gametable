@@ -1,7 +1,7 @@
 <%= simple_form_for(@episode.persisted? ? @episode : [ @series, @episode ]) do |f| %>
   <%= f.error_notification %>
   <%= f.input :title, required: true, autofocus: true %>
-  <%= f.input :session_date, as: :date %>
+  <%= f.input :session_date, as: :date, html5: true, input_html: { min: Date.current.to_s } %>
   <%= f.input :notes, as: :text %>
   <%= f.button :submit %>
 <% end %>

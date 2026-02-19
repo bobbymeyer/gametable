@@ -10,6 +10,8 @@ class EpisodesControllerTest < ActionDispatch::IntegrationTest
   test "get new" do
     get new_series_episode_path(@series)
     assert_response :success
+    assert_select "input[type=date][name='episode[session_date]']"
+    assert_select "input[type=date][min=?]", Date.current.to_s
   end
 
   test "create episode" do
@@ -20,6 +22,21 @@ class EpisodesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to episode_path(episode)
     assert_equal "Session One", episode.title
     assert_equal @series, episode.series
+  end
+
+  test "create episode with session_date" do
+    session_date = Date.current
+    assert_difference "Episode.count", 1 do
+      post series_episodes_path(@series), params: { episode: { title: "Session One", session_date: session_date.to_s, notes: "First session." } }
+    end
+    episode = Episode.last
+    assert_redirected_to episode_path(episode)
+    assert_equal session_date, episode.session_date
+  end
+
+  test "create with past session_date re-renders new" do
+    post series_episodes_path(@series), params: { episode: { title: "Session One", session_date: 1.day.ago.to_s, notes: "First session." } }
+    assert_response :unprocessable_entity
   end
 
   test "get show" do

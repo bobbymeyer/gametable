@@ -1,0 +1,6 @@
+<%= simple_form_for(@location.persisted? ? @location : [ @series, @location ], html: { multipart: true }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :name, required: true, autofocus: true %>
+  <%= f.input :backdrop, as: :file, hint: "16:9 image recommended" %>
+  <%= f.button :submit %>
+<% end %>
